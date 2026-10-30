@@ -2,101 +2,255 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ruddy Crown Games</title>
 
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background:#111;
-    color:#eee;
-    margin:0;
-    text-align:center;
+:root {
+    --bg: #101014;
+    --card: #1b1a22;
+    --accent: #e64b91;
+    --text: #f5f2f5;
+    --muted: #aaa4b0;
 }
 
-/* 上部ヘッダー */
-header{
-    background:#1b1b1b;
-    padding:20px;
+* {
+    box-sizing: border-box;
 }
 
-/* タイトルリンク */
-header a{
-    color:white;
-    text-decoration:none;
-    font-size:28px;
-    font-weight:bold;
+body {
+    font-family: Arial, "Noto Sans JP", sans-serif;
+    background:
+        radial-gradient(ellipse at 50% 0%, #35202f 0%, transparent 55%),
+        var(--bg);
+    color: var(--text);
+    margin: 0;
+    min-height: 100vh;
 }
 
-header a:hover{
-    color:#CD4187;
+/* Header */
+header {
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(16,16,20,0.8);
+    text-align: center;
 }
 
-.games{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:30px;
-    padding:30px;
+header a {
+    color: white;
+    text-decoration: none;
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    transition: color .3s;
 }
 
-.game{
-    background:#1b1b1b;
-    padding:20px;
-    border-radius:10px;
-    width:220px;
+header a:hover {
+    color: var(--accent);
 }
 
-.game img{
-    width:100%;
-    border-radius:6px;
+/* Hero */
+.hero {
+    padding: 75px 20px 45px;
+    text-align: center;
 }
 
-.game h2{
-    font-size:18px;
+.hero .eyebrow {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 5px;
+    font-weight: bold;
+    margin-bottom: 18px;
 }
 
-.store-link{
-    display:inline-block;
-    margin-top:10px;
-    padding:10px 15px;
-    background:#2d2d2d;
-    color:white;
-    text-decoration:none;
-    border-radius:6px;
+.hero h1 {
+    font-size: clamp(30px, 5vw, 48px);
+    margin: 0 0 18px;
+    letter-spacing: 2px;
 }
 
-.store-link:hover{
-    background:#444;
+.hero p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* Games */
+.games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
+    justify-content: center;
+    align-items: stretch;
+    gap: 28px;
+    padding: 35px 24px 90px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Game Card */
+.game {
+    background: linear-gradient(145deg, #24222d, #191820);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    overflow: hidden;
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+}
+
+.game:hover {
+    transform: translateY(-8px);
+    border-color: rgba(230,75,145,0.6);
+    box-shadow: 0 15px 40px rgba(230,75,145,0.12);
+}
+
+/* ★ 画像の高さを統一 */
+.game img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 10px;
+    background: #111;
+}
+
+.game h2 {
+    font-size: 17px;
+    line-height: 1.6;
+    margin: 18px 5px 12px;
+    min-height: 3.2em;
+}
+
+/* Store Button */
+.store-link {
+    display: block;
+    margin-top: auto;
+    padding: 13px;
+    background: linear-gradient(135deg, #e64b91, #b82e70);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    transition: .3s;
+}
+
+.store-link:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 5px 20px rgba(230,75,145,0.3);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 25px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: #77717d;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding: 55px 20px 25px;
+    }
+
+    .games {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 25px 14px 60px;
+    }
+
+    .game {
+        padding: 10px;
+        border-radius: 12px;
+    }
+
+    .game h2 {
+        font-size: 14px;
+        min-height: 3.2em;
+    }
+
+    .store-link {
+        font-size: 12px;
+        padding: 11px 5px;
+    }
+}
+
+@media (max-width: 360px) {
+    .games {
+        grid-template-columns: 1fr;
+    }
+
+    .game {
+        max-width: 280px;
+        width: 100%;
+        margin: auto;
+    }
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
-<a href="index.html">Ruddy Crown</a>
+    <a href="index.html">RUDDY CROWN</a>
 </header>
 
-<div class="games">
+<section class="hero">
+    <div class="eyebrow">INDIE GAME STUDIO</div>
+    <h1>Our Games</h1>
+    <p>
+        物語も、遊びも、心に残る体験を。<br>
+        Ruddy Crownが贈るゲーム作品。
+    </p>
+</section>
 
-<div class="game">
-<img src="dungeonLove.png" alt="ダンジョン攻略は恋のはじまり">
-<h2>ダンジョン攻略は恋のはじまり</h2>
-<a class="store-link" href="https://apps.apple.com/jp/app/%E3%83%80%E3%83%B3%E3%82%B8%E3%83%A7%E3%83%B3%E6%94%BB%E7%95%A5%E3%81%AF%E6%81%8B%E3%81%AE%E3%81%AF%E3%81%98%E3%81%BE%E3%82%8A/id6760581203" target="_blank">
-App Store
-</a>
-</div>
+<main class="games">
 
-<div class="game">
-<img src="saltOrSuger.png" alt="ソルトorシュガー">
-<h2>ソルトorシュガー ~この恋、何味にする？~</h2>
-<a class="store-link" href="https://apps.apple.com/jp/app/id6808684299" target="_blank">
-App Store
-</a>
-</div>
+    <article class="game">
+        <img src="dungeonLove.png" alt="ダンジョン攻略は恋のはじまり">
+        <h2>ダンジョン攻略は恋のはじまり</h2>
+        <a class="store-link"
+           href="https://apps.apple.com/jp/app/%E3%83%80%E3%83%B3%E3%82%B8%E3%83%A7%E3%83%B3%E6%94%BB%E7%95%A5%E3%81%AF%E6%81%8B%E3%81%AE%E3%81%AF%E3%81%98%E3%81%BE%E3%82%8A/id6760581203"
+           target="_blank" rel="noopener noreferrer">
+            VIEW ON APP STORE ↗
+        </a>
+    </article>
 
-</div>
+    <article class="game">
+        <img src="ioGames.png" alt="イオくんと積みゲー崩そ！">
+        <h2>イオくんと積みゲー崩そ！</h2>
+        <a class="store-link"
+           href="https://apps.apple.com/jp/app/id6777878502"
+           target="_blank" rel="noopener noreferrer">
+            VIEW ON APP STORE ↗
+        </a>
+    </article>
+
+    <article class="game">
+        <img src="saltOrSuger.png" alt="ソルトorシュガー">
+        <h2>ソルトorシュガー ～この恋、何味にする？～</h2>
+        <a class="store-link"
+           href="https://apps.apple.com/jp/app/id6808684299"
+           target="_blank" rel="noopener noreferrer">
+            VIEW ON APP STORE ↗
+        </a>
+    </article>
+
+</main>
+
+<footer>
+    © RUDDY CROWN
+</footer>
 
 </body>
 </html>
