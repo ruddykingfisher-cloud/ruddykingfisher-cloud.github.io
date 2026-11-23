@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>プライバシーポリシー</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プライバシーポリシー / Privacy Policy</title>
 
 <style>
 body{
@@ -12,23 +13,54 @@ body{
     background:#111;
     color:#eee;
 }
-    
-/* 上部ヘッダー */
+
+/* 上部ヘッダー / Header */
 header{
     background:#1b1b1b;
     padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
 }
 
-/* タイトルリンク */
-header a{
+header a.title{
     color:white;
     text-decoration:none;
     font-size:28px;
     font-weight:bold;
 }
 
-header a:hover{
+header a.title:hover{
     color:#CD4187;
+}
+
+/* 言語切替 / Language switcher */
+.lang-switch{
+    display:flex;
+    gap:8px;
+}
+
+.lang-switch button{
+    background:transparent;
+    color:#ccc;
+    border:1px solid #555;
+    padding:6px 14px;
+    border-radius:4px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.lang-switch button:hover{
+    color:#fff;
+    border-color:#CD4187;
+}
+
+.lang-switch button.active{
+    background:#CD4187;
+    border-color:#CD4187;
+    color:#fff;
 }
 
 h1,h2{
@@ -49,16 +81,31 @@ footer{
     font-size:14px;
     color:#aaa;
 }
+
+/* 言語ごとの表示切替 / Show only the selected language */
+html[lang="ja"] [data-lang="en"]{ display:none; }
+html[lang="en"] [data-lang="ja"]{ display:none; }
+
+@media (max-width:600px){
+    body{ margin:16px; }
+}
 </style>
 </head>
 
 <body>
-    
+
 <header>
-<a href="index.html">Ruddy Crown</a>
+<a class="title" href="index.html">Ruddy Crown</a>
+<div class="lang-switch">
+    <button type="button" data-set-lang="ja">日本語</button>
+    <button type="button" data-set-lang="en">English</button>
+</div>
 </header>
 
 <div class="container">
+
+<!-- ========== 日本語 ========== -->
+<section data-lang="ja">
 
 <h1>プライバシーポリシー</h1>
 
@@ -110,16 +157,121 @@ Google AdMob は広告配信のために Cookie や広告識別子を使用す�
 </p>
 
 <p>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSepdSW3_5h3igLcRIcDnNChsKKO72TDy5pAHpnkHhU4msEV1w/viewform" target="_blank">
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSepdSW3_5h3igLcRIcDnNChsKKO72TDy5pAHpnkHhU4msEV1w/viewform" target="_blank" rel="noopener">
 お問い合わせフォーム
 </a>
 </p>
+
+</section>
+
+<!-- ========== English ========== -->
+<section data-lang="en">
+
+<h1>Privacy Policy</h1>
+
+<p>
+This Privacy Policy explains how user information is handled
+on this website and in the apps we develop.
+</p>
+
+<h2>Advertising</h2>
+<p>
+Our apps use "Google AdMob," a third-party advertising service.
+Google AdMob may use cookies and advertising identifiers to serve ads.
+As a result, you may see ads tailored to your interests.
+For details about advertising-related information, please refer to Google's policies.
+</p>
+
+<h2>Information Collected</h2>
+<p>
+In the course of serving ads, the following information may be collected automatically:
+</p>
+
+<ul>
+<li>Advertising identifiers</li>
+<li>IP address</li>
+<li>Device information</li>
+<li>Usage data</li>
+</ul>
+
+<p>
+This information is not used to personally identify you.
+</p>
+
+<h2>Disclosure to Third Parties</h2>
+<p>
+The operator of this site will not disclose users' personal information
+to third parties, except where required by law.
+</p>
+
+<h2>Changes to This Privacy Policy</h2>
+<p>
+This policy may be revised as necessary.
+Any updated Privacy Policy will be published on this page.
+</p>
+
+<h2>Contact Us</h2>
+<p>
+If you have any questions about this Privacy Policy,
+please contact us using the form below.
+</p>
+
+<p>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSepdSW3_5h3igLcRIcDnNChsKKO72TDy5pAHpnkHhU4msEV1w/viewform" target="_blank" rel="noopener">
+Contact Form
+</a>
+</p>
+
+</section>
 
 <footer>
 <p>© 2026 Ruddy Crown</p>
 </footer>
 
 </div>
+
+<script>
+(function(){
+    var KEY = "site-lang";
+    var titles = {
+        ja: "プライバシーポリシー | Ruddy Crown",
+        en: "Privacy Policy | Ruddy Crown"
+    };
+
+    function getSaved(){
+        try { return localStorage.getItem(KEY); } catch(e){ return null; }
+    }
+    function save(lang){
+        try { localStorage.setItem(KEY, lang); } catch(e){}
+    }
+
+    function setLang(lang){
+        if(lang !== "ja" && lang !== "en") lang = "ja";
+        document.documentElement.lang = lang;
+        document.title = titles[lang];
+        var btns = document.querySelectorAll("[data-set-lang]");
+        for(var i = 0; i < btns.length; i++){
+            btns[i].classList.toggle("active", btns[i].getAttribute("data-set-lang") === lang);
+        }
+    }
+
+    // 優先順位: URL (?lang=en) > 保存済み > ブラウザ言語
+    var params = new URLSearchParams(location.search);
+    var initial = params.get("lang") || getSaved();
+    if(!initial){
+        initial = (navigator.language || "ja").toLowerCase().indexOf("ja") === 0 ? "ja" : "en";
+    }
+    setLang(initial);
+
+    document.addEventListener("click", function(e){
+        var btn = e.target.closest("[data-set-lang]");
+        if(!btn) return;
+        var lang = btn.getAttribute("data-set-lang");
+        save(lang);
+        setLang(lang);
+    });
+})();
+</script>
 
 </body>
 </html>
